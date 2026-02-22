@@ -74,6 +74,9 @@ export default function Cars() {
   }, [cars]);
 
   const filteredCars = cars?.filter((car) => {
+    // Exclude unpublished cars
+    if (car.published === false) return false;
+
     // Exclude Coming Soon and Sold cars from main inventory
     if (car.isComingSoon || car.isSold) return false;
 

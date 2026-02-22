@@ -248,6 +248,7 @@ export default function CarForm() {
       exteriorColor: "",
       interiorColor: "",
       isSold: false,
+      published: true,
     },
   });
 
@@ -285,6 +286,7 @@ export default function CarForm() {
         exteriorColor: (carData.exteriorColor as string) || "",
         interiorColor: (carData.interiorColor as string) || "",
         isSold: (carData.isSold as boolean) || false,
+        published: carData.published !== undefined ? (carData.published as boolean) : true,
       });
     }
   }, [car, isEdit, form, form.formState.isDirty]);
@@ -1071,6 +1073,28 @@ export default function CarForm() {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           data-testid="switch-is-sold"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="published"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">Published Status</FormLabel>
+                        <FormDescription>
+                          Hide or show this vehicle on the public website
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          data-testid="switch-published"
                         />
                       </FormControl>
                     </FormItem>

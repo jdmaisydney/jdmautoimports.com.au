@@ -54,7 +54,7 @@ export default function CarDetail() {
     enabled: !!slug,
     queryFn: async () => {
       const result = await getCarBySlugFirebase(slug!);
-      if (!result) throw new Error("Car not found");
+      if (!result || result.published === false) throw new Error("Car not found");
       return result;
     },
   });
@@ -65,7 +65,7 @@ export default function CarDetail() {
   });
 
   const similarCars = allCars
-    ?.filter((c) => c.category === car?.category && c.id !== car?.id)
+    ?.filter((c) => c.category === car?.category && c.id !== car?.id && c.published !== false)
     .slice(0, 3) || [];
 
   useEffect(() => {

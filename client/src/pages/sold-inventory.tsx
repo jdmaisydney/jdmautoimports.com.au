@@ -25,7 +25,7 @@ export default function SoldInventory() {
     });
 
     const soldCars = useMemo(() => {
-        return cars?.filter(car => car.isSold === true) || [];
+        return cars?.filter(car => car.isSold === true && car.published !== false) || [];
     }, [cars]);
 
     const filteredCars = useMemo(() => {

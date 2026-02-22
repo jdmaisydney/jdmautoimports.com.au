@@ -47,8 +47,8 @@ export default function Home() {
     { number: settings?.stats4Value || "", label: settings?.stats4Label || "" },
   ].filter(s => s.number && s.label);
 
-  const featuredCars = cars?.filter(c => c.slug && !c.isComingSoon).slice(0, 3) || [];
-  const comingSoonPreview = cars?.filter(c => c.slug && c.isComingSoon).slice(0, 3) || [];
+  const featuredCars = cars?.filter(c => c.slug && !c.isComingSoon && c.published !== false).slice(0, 3) || [];
+  const comingSoonPreview = cars?.filter(c => c.slug && c.isComingSoon && c.published !== false).slice(0, 3) || [];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -88,7 +88,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background" />
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -99,7 +99,7 @@ export default function Home() {
               <span>Direct Vehicle Imports</span>
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               variants={itemVariants}
               className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter uppercase leading-[0.9] drop-shadow-2xl"
             >
@@ -107,7 +107,7 @@ export default function Home() {
               <span className="block text-white drop-shadow-2xl">Delivered to You</span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="text-lg md:text-xl text-white mb-10 leading-relaxed max-w-2xl mx-auto font-medium"
             >
@@ -138,7 +138,7 @@ export default function Home() {
               </Link>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="w-full max-w-4xl"
             >
@@ -205,8 +205,8 @@ export default function Home() {
               </div>
             </motion.div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5, duration: 1 }}

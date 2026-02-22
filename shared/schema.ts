@@ -43,6 +43,7 @@ export const cars = pgTable("cars", {
   accidentHistory: text("accident_history"),
   dossierTitle: text("dossier_title"),
   dossierText: text("dossier_text"),
+  published: boolean("published").notNull().default(true),
 });
 
 // Custom URL validator that accepts both full URLs and relative paths
@@ -84,6 +85,7 @@ export const insertCarSchema = createInsertSchema(cars).omit({
   accidentHistory: z.string().optional().nullable(),
   dossierTitle: z.string().optional().nullable(),
   dossierText: z.string().optional().nullable(),
+  published: z.boolean().optional().default(true),
 });
 
 export type InsertCar = z.infer<typeof insertCarSchema>;

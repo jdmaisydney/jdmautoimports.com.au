@@ -198,6 +198,11 @@ export default function CarsList() {
                               Sold
                             </Badge>
                           )}
+                          {!car.published && (
+                            <Badge variant="destructive" className="text-[10px] font-bold uppercase py-0 w-fit">
+                              Unpublished
+                            </Badge>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell className="text-right pr-6" onClick={(e) => e.stopPropagation()}>

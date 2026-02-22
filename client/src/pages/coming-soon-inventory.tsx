@@ -26,7 +26,7 @@ export default function ComingSoonInventory() {
   });
 
   const comingSoonCars = useMemo(() => {
-    return cars?.filter(car => car.isComingSoon === true) || [];
+    return cars?.filter(car => car.isComingSoon === true && car.published !== false) || [];
   }, [cars]);
 
   const filteredCars = useMemo(() => {
