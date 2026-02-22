@@ -37,6 +37,8 @@ import {
   Bluetooth,
   Wind,
   Usb,
+  DoorOpen as Door,
+  Briefcase,
 } from "lucide-react";
 import { getCarBySlugFirebase, getAllCarsFirebase } from "@/lib/carsFirebase";
 import { InquiryForm } from "@/components/inquiry-form";
@@ -179,7 +181,7 @@ export default function CarDetail() {
                   PREMIUM SELECTION
                 </Badge>
                 <Badge variant="outline" className="text-white border-white/40 backdrop-blur-sm px-3 py-1">
-                  {car.year} MODEL
+                  {car.year} PRODUCTION YEAR
                 </Badge>
                 {car.isSold && (
                   <Badge className="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 text-sm font-black shadow-2xl animate-pulse">
@@ -286,19 +288,21 @@ export default function CarDetail() {
               {/* Enhanced Specs Grid */}
               <div className="space-y-8 pt-8">
                 <div className="flex items-center justify-between border-b border-border pb-6">
-                  <h3 className="text-2xl font-bold">Standard Specifications</h3>
+                  <h3 className="text-2xl font-bold">Vehicle Specifications</h3>
                   <Badge variant="outline" className="bg-muted/50 rounded-lg px-3 py-1 text-xs font-mono">
                     VERIFIED ASSET
                   </Badge>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <SpecCard icon={<Gauge className="h-6 w-6" />} label="Engine Unit" value={car.engine} />
-                  <SpecCard icon={<Zap className="h-6 w-6" />} label="Power Output" value={car.power} />
+                  <SpecCard icon={<Gauge className="h-6 w-6" />} label="Engine" value={car.engine} />
+                  <SpecCard icon={<Zap className="h-6 w-6" />} label="Power" value={car.power} />
                   <SpecCard icon={<Settings className="h-6 w-6" />} label="Transmission" value={car.transmission} />
                   <SpecCard icon={<Activity className="h-6 w-6" />} label="Drivetrain" value={car.drivetrain} />
-                  <SpecCard icon={<Droplets className="h-6 w-6" />} label="Fuel System" value={car.fuelType} />
+                  <SpecCard icon={<Droplets className="h-6 w-6" />} label="Fuel Type" value={car.fuelType} />
                   <SpecCard icon={<Compass className="h-6 w-6" />} label="Consumption" value={car.consumption} />
+                  <SpecCard icon={<Door className="h-6 w-6" />} label="Doors" value={car.doors?.toString() || null} />
+                  <SpecCard icon={<Briefcase className="h-6 w-6" />} label="Luggage" value={car.luggage?.toString() || null} />
                 </div>
 
                 {/* Secondary Specs */}
@@ -306,21 +310,21 @@ export default function CarDetail() {
                   <div className="flex items-center gap-3 px-6 py-4 bg-muted/30 rounded-2xl border border-border/50">
                     <SeatsIcon className="h-5 w-5 text-blue-600" />
                     <div>
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Capacity</p>
+                      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Seats</p>
                       <p className="font-bold">{car.seats} Seats</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 px-6 py-4 bg-muted/30 rounded-2xl border border-border/50">
                     <Palette className="h-5 w-5 text-blue-600" />
                     <div>
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Exterior</p>
+                      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Exterior Color</p>
                       <p className="font-bold">{car.exteriorColor || "Factory"}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 px-6 py-4 bg-muted/30 rounded-2xl border border-border/50">
                     <Palette className="h-5 w-5 text-blue-600" />
                     <div>
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Interior</p>
+                      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Interior Color</p>
                       <p className="font-bold">{car.interiorColor || "N/A"}</p>
                     </div>
                   </div>
