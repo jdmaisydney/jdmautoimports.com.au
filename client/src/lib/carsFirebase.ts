@@ -55,6 +55,7 @@ export async function getAllCarsFirebase(): Promise<Car[]> {
       });
     });
 
+    console.log(`Fetched ${cars.length} cars from Firestore.`);
     return cars;
   } catch (error: any) {
     const isOffline = error?.code === 'unavailable' ||

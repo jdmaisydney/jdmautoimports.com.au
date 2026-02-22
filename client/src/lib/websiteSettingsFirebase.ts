@@ -186,10 +186,12 @@ export async function getWebsiteSettings(): Promise<WebsiteSettings> {
 
     if (docSnap.exists()) {
       const data = docSnap.data() as WebsiteSettings;
+      console.log("Website settings found in Firestore.");
       // Merge with defaults to ensure all fields exist
       return { ...defaultWebsiteSettings, ...data };
     }
 
+    console.warn("No website settings found in Firestore, using defaults.");
     // Return defaults if no settings exist
     return defaultWebsiteSettings;
   } catch (error: any) {

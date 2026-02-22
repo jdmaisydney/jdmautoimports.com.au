@@ -19,23 +19,34 @@ let app;
 let dbInstance;
 
 if (isFirebaseInitialized) {
-  app = initializeApp(firebaseConfig);
-  dbInstance = getFirestore(app);
+  console.log("Initializing Firebase with Project ID:", firebaseConfig.projectId);
+  try {
+    app = initializeApp(firebaseConfig);
+    dbInstance = getFirestore(app);
+    console.log("Firebase app and Firestore instance created.");
+  } catch (initErr) {
+    console.error("Firebase initialization failed:", initErr);
+  }
 
   // Enable offline persistence
-  if (typeof window !== "undefined") {
-    enableMultiTabIndexedDbPersistence(dbInstance).catch((err) => {
+  if (typeof window !== "undefined" && dbInstance) {
+    console.log("Attempting to enable Firestore persistence...");
+    enableMultiTabIndexedDbPersistence(dbInstance).then(() => {
+      console.log("Firestore persistence enabled successfully.");
+    }).catch((err) => {
       if (err.code === 'failed-precondition') {
         // Multiple tabs open, persistence can only be enabled in one tab at a time.
         console.warn("Firestore persistence failed: Multiple tabs open.");
       } else if (err.code === 'unimplemented') {
         // The current browser does not support persistence
         console.warn("Firestore persistence failed: Browser not supported.");
+      } else {
+        console.error("Firestore persistence error:", err);
       }
     });
   }
 } else {
-  console.warn("Firebase credentials missing. App will run in Setup Mode.");
+  console.warn("Firebase credentials missing. App will run in Setup Mode. Check your VITE_FIREBASE_* env variables.");
 }
 
 // Export casted db to avoid TypeScript errors in consumers
