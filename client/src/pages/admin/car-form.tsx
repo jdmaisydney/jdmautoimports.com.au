@@ -462,68 +462,68 @@ export default function CarForm() {
   }
 
   return (
-    <div className="max-w-4xl">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-        <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
-          <Button
-            variant="ghost"
-            onClick={() => setLocation("/admin/cars")}
-            data-testid="button-back"
-            size="sm"
-            className="px-2 sm:px-4"
-          >
-            <ArrowLeft className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">Back to Inventory</span>
-          </Button>
-          <h1 className="text-xl sm:text-3xl font-bold truncate flex-1 sm:flex-none">
-            {isEdit ? "Edit Vehicle" : "Add New Vehicle"}
-          </h1>
+    <Form {...form}>
+      <div className="max-w-4xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            <Button
+              variant="ghost"
+              onClick={() => setLocation("/admin/cars")}
+              data-testid="button-back"
+              size="sm"
+              className="px-2 sm:px-4"
+            >
+              <ArrowLeft className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Back to Inventory</span>
+            </Button>
+            <h1 className="text-xl sm:text-3xl font-bold truncate flex-1 sm:flex-none">
+              {isEdit ? "Edit Vehicle" : "Add New Vehicle"}
+            </h1>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
+            <FormField
+              control={form.control}
+              name="published"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-3 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border rounded-xl px-4 py-2 mr-2">
+                  <FormLabel className="text-sm font-bold m-0 cursor-pointer">Published</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      data-testid="switch-published-header"
+                      className="scale-90"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setLocation("/admin/cars")}
+              data-testid="button-close"
+              size="sm"
+              className="px-2 sm:px-4"
+            >
+              <X className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Close</span>
+            </Button>
+            <Button
+              type="submit"
+              form="car-form"
+              disabled={isUploading}
+              className="sm:min-w-[120px]"
+              size="sm"
+              data-testid="button-save"
+            >
+              <Save className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">{isUploading ? "Saving..." : "Save Changes"}</span>
+              <span className="sm:hidden">{isUploading ? "Saving..." : "Save"}</span>
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
-          <FormField
-            control={form.control}
-            name="published"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-3 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border rounded-xl px-4 py-2 mr-2">
-                <FormLabel className="text-sm font-bold m-0 cursor-pointer">Published</FormLabel>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    data-testid="switch-published-header"
-                    className="scale-90"
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setLocation("/admin/cars")}
-            data-testid="button-close"
-            size="sm"
-            className="px-2 sm:px-4"
-          >
-            <X className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">Close</span>
-          </Button>
-          <Button
-            type="submit"
-            form="car-form"
-            disabled={isUploading}
-            className="sm:min-w-[120px]"
-            size="sm"
-            data-testid="button-save"
-          >
-            <Save className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">{isUploading ? "Saving..." : "Save Changes"}</span>
-            <span className="sm:hidden">{isUploading ? "Saving..." : "Save"}</span>
-          </Button>
-        </div>
-      </div>
 
-      <Form {...form}>
         <form id="car-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Card>
             <CardHeader>
@@ -1186,7 +1186,7 @@ export default function CarForm() {
             </Button>
           </div>
         </form>
-      </Form >
-    </div >
+      </div>
+    </Form>
   );
 }

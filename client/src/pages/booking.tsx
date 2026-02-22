@@ -24,6 +24,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
@@ -57,7 +58,7 @@ export default function Booking() {
     const mutation = useMutation({
         mutationFn: async (data: InsertBooking) => {
             const result = await createBookingFirebase(data);
-            
+
             // Trigger notification
             try {
                 // Adapt booking data to the notification format
@@ -80,7 +81,7 @@ export default function Booking() {
             } catch (notifyErr) {
                 console.warn("Failed to send notification:", notifyErr);
             }
-            
+
             return result;
         },
         onSuccess: () => {
@@ -113,7 +114,7 @@ export default function Booking() {
             <SEO
                 title="Book an Inspection"
                 description="Schedule a professional viewing of your selected vehicle at our specialized facility. Specialized vehicle import service in Australia."
-              />
+            />
             <div className="pt-24 pb-16 md:pt-32 md:pb-24 bg-background min-h-screen">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-12">
