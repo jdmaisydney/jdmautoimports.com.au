@@ -352,10 +352,10 @@ export default function CarDetail() {
                   <div className="pt-12 space-y-8">
                     <div className="flex items-center justify-between border-b border-border pb-6">
                       <div className="flex items-center gap-3">
-                        <div className="p-3 rounded-2xl bg-blue-600 text-white">
-                          <FileText className="h-5 w-5" />
+                        <div className="p-2 rounded-2xl bg-blue-600 text-white">
+                          <FileText className="h-4 w-4" />
                         </div>
-                        <h3 className="text-2xl font-bold">{car.dossierTitle || "Verified Asset Dossier"}</h3>
+                        <h3 className="text-xl font-bold">{car.dossierTitle || "Verified Asset Dossier"}</h3>
                       </div>
                       <Badge variant="outline" className="bg-emerald-50/50 text-emerald-700 border-emerald-200 rounded-lg px-3 py-1 text-xs font-mono">
                         AUTHENTICITY GUARANTEED
@@ -364,31 +364,31 @@ export default function CarDetail() {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {car.auctionGrade && (
-                        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
+                        <div className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
                           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Auction Grade</p>
-                          <p className="text-2xl font-bold text-blue-600">{car.auctionGrade}</p>
+                          <p className="text-lg font-bold text-blue-600">{car.auctionGrade}</p>
                         </div>
                       )}
                       {car.verifiedMileage && (
-                        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
-                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Verified Odometer</p>
-                          <p className="text-2xl font-bold text-blue-600">{car.verifiedMileage}</p>
+                        <div className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Verified Mileage</p>
+                          <p className="text-lg font-bold text-blue-600">{car.verifiedMileage}</p>
                         </div>
                       )}
                       {car.accidentHistory && (
-                        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
+                        <div className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
                           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Accident History</p>
-                          <p className="text-2xl font-bold text-blue-600">{car.accidentHistory}</p>
+                          <p className="text-lg font-bold text-blue-600">{car.accidentHistory}</p>
                         </div>
                       )}
                     </div>
 
                     {car.dossierText && (
-                      <div className="p-8 rounded-[32px] bg-blue-50/30 dark:bg-blue-900/10 border border-blue-100/50 dark:border-blue-800/30">
+                      <div className="p-6 rounded-[32px] bg-blue-50/30 dark:bg-blue-900/10 border border-blue-100/50 dark:border-blue-800/30">
                         <div className="flex items-start gap-4">
-                          <ShieldCheck className="h-6 w-6 text-blue-600 mt-1" />
+                          <ShieldCheck className="h-4 w-4 text-blue-600 mt-1" />
                           <div className="space-y-4">
-                            <h4 className="font-bold text-lg">Detailed Inspection Summary</h4>
+                            <h4 className="font-bold text-sm uppercase tracking-widest">Auction Sheet Decode Text</h4>
                             <p className="text-muted-foreground leading-relaxed">
                               {car.dossierText}
                             </p>
