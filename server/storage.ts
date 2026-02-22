@@ -56,7 +56,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Audi Q7",
@@ -100,13 +99,10 @@ export class MemStorage implements IStorage {
         transmission: "Automatic",
         fuelType: "Petrol",
         luggage: 3,
-        doors: 5,
+        doors: 2,
         year: 2023,
         hasGPS: true,
         hasBluetooth: true,
-        hasAC: true,
-        hasUSB: true,
-        available: false,
       },
       {
         name: "Ford Mustang GT",
@@ -128,7 +124,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "BMW X5",
@@ -151,7 +146,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Toyota Camry",
@@ -220,7 +214,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Honda CR-V",
@@ -243,7 +236,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Lamborghini Huracán EVO",
@@ -265,7 +257,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Chevrolet Tahoe",
@@ -302,7 +293,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Bentley Continental GT",
@@ -324,7 +314,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Volvo XC90 Recharge",
@@ -345,7 +334,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Ferrari Portofino M",
@@ -388,7 +376,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Nissan GT-R",
@@ -409,7 +396,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "BMW i8 Roadster",
@@ -430,7 +416,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Lexus RX 350",
@@ -472,7 +457,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Jeep Grand Cherokee 4xe",
@@ -493,7 +477,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Rolls-Royce Cullinan",
@@ -535,7 +518,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
       {
         name: "Toyota Land Cruiser GR Sport",
@@ -556,7 +538,6 @@ export class MemStorage implements IStorage {
         hasBluetooth: true,
         hasAC: true,
         hasUSB: true,
-        available: true,
       },
     ];
 

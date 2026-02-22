@@ -25,7 +25,7 @@ export default function AdminDashboard() {
 
   const stats = {
     total: cars?.length || 0,
-    available: cars?.filter((car) => car.available).length || 0,
+    published: cars?.filter((car) => car.published !== false).length || 0,
     inquiries: inquiries?.length || 0,
     concierge: inquiries?.filter((inq) => !inq.carId).length || 0,
   };
@@ -68,16 +68,16 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-green-500 shadow-sm hover:shadow-md transition-shadow">
+          <Card className="border-l-4 border-emerald-500 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
-              <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Available</CardTitle>
-              <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center border border-green-100">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Published</CardTitle>
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                <CheckCircle className="h-5 w-5 text-emerald-600" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-black text-green-600">{stats.available}</div>
-              <p className="text-xs text-muted-foreground mt-2 font-medium">Ready for immediate import</p>
+              <div className="text-4xl font-black text-emerald-600">{stats.published}</div>
+              <p className="text-xs text-muted-foreground mt-2 font-medium">Vehicles visible on website</p>
             </CardContent>
           </Card>
 
@@ -181,8 +181,8 @@ export default function AdminDashboard() {
                         </span>
                       </div>
                     </div>
-                    <Badge variant={car.available ? "default" : "secondary"} className="font-bold">
-                      {car.available ? "Available" : "Reserved"}
+                    <Badge variant={car.published !== false ? "default" : "secondary"} className="font-bold">
+                      {car.published !== false ? "Published" : "Draft"}
                     </Badge>
                     <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <Plus className="h-4 w-4 rotate-45" />

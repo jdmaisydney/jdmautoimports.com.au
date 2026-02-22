@@ -138,7 +138,7 @@ export default function CarsList() {
                   <TableHead className="font-bold uppercase text-[10px] tracking-widest pl-6">Image</TableHead>
                   <TableHead className="font-bold uppercase text-[10px] tracking-widest">Name</TableHead>
                   <TableHead className="font-bold uppercase text-[10px] tracking-widest">Category</TableHead>
-                  <TableHead className="font-bold uppercase text-[10px] tracking-widest">Availability</TableHead>
+
                   <TableHead className="text-right font-bold uppercase text-[10px] tracking-widest pr-6">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -185,9 +185,6 @@ export default function CarsList() {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1">
-                          <Badge variant={car.available ? "default" : "secondary"} className="text-[10px] font-bold uppercase py-0 w-fit">
-                            {car.available ? "Available" : "Sourced / Sold"}
-                          </Badge>
                           {car.isComingSoon && (
                             <Badge className="text-[10px] font-bold uppercase py-0 w-fit bg-blue-600 hover:bg-blue-600">
                               Coming Soon

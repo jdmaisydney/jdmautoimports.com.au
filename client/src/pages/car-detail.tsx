@@ -34,6 +34,9 @@ import {
   CheckCircle2,
   ChevronRight,
   Calculator,
+  Bluetooth,
+  Wind,
+  Usb,
 } from "lucide-react";
 import { getCarBySlugFirebase, getAllCarsFirebase } from "@/lib/carsFirebase";
 import { InquiryForm } from "@/components/inquiry-form";
@@ -320,6 +323,42 @@ export default function CarDetail() {
                       <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Interior</p>
                       <p className="font-bold">{car.interiorColor || "N/A"}</p>
                     </div>
+                  </div>
+                </div>
+
+                {/* Main Features & Availability Grid */}
+                <div className="pt-8 space-y-6">
+                  <div className="flex items-center justify-between border-b border-border pb-6">
+                    <h3 className="text-2xl font-bold">Standard Features</h3>
+                    <Badge variant="outline" className="bg-muted/50 rounded-lg px-3 py-1 text-xs font-mono">
+                      INCLUDED
+                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {car.hasGPS && (
+                      <div className="p-4 rounded-2xl bg-card border border-border flex items-center gap-3">
+                        <MapPin className="h-5 w-5 text-blue-600" />
+                        <span className="text-sm font-bold">Navigation / GPS</span>
+                      </div>
+                    )}
+                    {car.hasBluetooth && (
+                      <div className="p-4 rounded-2xl bg-card border border-border flex items-center gap-3">
+                        <Bluetooth className="h-5 w-5 text-blue-600" />
+                        <span className="text-sm font-bold">Bluetooth Audio</span>
+                      </div>
+                    )}
+                    {car.hasAC && (
+                      <div className="p-4 rounded-2xl bg-card border border-border flex items-center gap-3">
+                        <Wind className="h-5 w-5 text-blue-600" />
+                        <span className="text-sm font-bold">Air Conditioning</span>
+                      </div>
+                    )}
+                    {car.hasUSB && (
+                      <div className="p-4 rounded-2xl bg-card border border-border flex items-center gap-3">
+                        <Usb className="h-5 w-5 text-blue-600" />
+                        <span className="text-sm font-bold">USB Interface</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 

@@ -239,7 +239,6 @@ export default function CarForm() {
       hasBluetooth: false,
       hasAC: true,
       hasUSB: false,
-      available: true,
       isComingSoon: false,
       consumption: "",
       engine: "",
@@ -277,7 +276,6 @@ export default function CarForm() {
         hasBluetooth: carData.hasBluetooth as boolean,
         hasAC: carData.hasAC as boolean,
         hasUSB: carData.hasUSB as boolean,
-        available: carData.available as boolean,
         isComingSoon: (carData.isComingSoon as boolean) || false,
         consumption: (carData.consumption as string) || "",
         engine: (carData.engine as string) || "",
@@ -1015,28 +1013,6 @@ export default function CarForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name="available"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base">Available for Inventory</FormLabel>
-                        <FormDescription>
-                          Toggle to make this car available or unavailable
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          data-testid="switch-available"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
                   name="isComingSoon"
                   render={({ field }) => (
                     <FormItem className="flex items-center justify-between rounded-lg border p-4">
@@ -1213,7 +1189,7 @@ export default function CarForm() {
             </Button>
           </div>
         </form>
-      </Form>
-    </div>
+      </Form >
+    </div >
   );
 }
