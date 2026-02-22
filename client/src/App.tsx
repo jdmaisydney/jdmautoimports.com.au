@@ -173,7 +173,11 @@ function AppContent() {
   // If we are loading and not on an admin route, show nothing or a minimal loader
   // This prevents the main website from flickering
   if (isLoading && !isAdminRoute) {
-    return null; // Or a beautiful minimal loader
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   // If maintenance mode is active, not an admin, and not on an admin route
