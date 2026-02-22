@@ -35,103 +35,136 @@ function sanitizeForFirestore<T extends Record<string, any>>(value: T): T {
 }
 
 export async function getAllCarsFirebase(): Promise<Car[]> {
-  if (!isFirebaseInitialized) return [];
-  const snap = await getDocs(collection(db, CARS_COLLECTION));
-  const cars: Car[] = [];
+  try {
+    if (!isFirebaseInitialized) return [];
+    const snap = await getDocs(collection(db, CARS_COLLECTION));
+    const cars: Car[] = [];
 
-  snap.forEach((docSnap) => {
-    const data = docSnap.data() as Car;
-    // Ensure images is always an array and id is set
-    cars.push({
+    snap.forEach((docSnap) => {
+      const data = docSnap.data() as Car;
+      // Ensure images is always an array and id is set
+      cars.push({
+        ...data,
+        id: data.id || docSnap.id, // Use document ID if id field is missing
+        images: ensureArray(data.images as any),
+        features: ensureArray((data as any).features),
+        enhancements: ensureArray((data as any).enhancements),
+        badges: ensureArray((data as any).badges),
+        timelineTitles: ensureArray((data as any).timelineTitles),
+        timelineDescs: ensureArray((data as any).timelineDescs),
+      });
+    });
+
+    return cars;
+  } catch (error: any) {
+    const isOffline = error?.code === 'unavailable' ||
+      error?.message?.toLowerCase().includes('offline') ||
+      !navigator.onLine;
+
+    if (!isOffline) {
+      console.error("Error fetching all cars:", error);
+    }
+    return [];
+  }
+}
+
+export async function getCarBySlugFirebase(slug: string): Promise<Car | undefined> {
+  try {
+    if (!isFirebaseInitialized) return undefined;
+    const q = query(
+      collection(db, CARS_COLLECTION),
+      where("slug", "==", slug),
+    );
+    const snap = await getDocs(q);
+    if (snap.empty) return undefined;
+
+    const data = snap.docs[0].data() as Car;
+    return {
       ...data,
-      id: data.id || docSnap.id, // Use document ID if id field is missing
+      id: data.id || snap.docs[0].id, // Ensure id is set using document ID if missing
       images: ensureArray(data.images as any),
       features: ensureArray((data as any).features),
       enhancements: ensureArray((data as any).enhancements),
       badges: ensureArray((data as any).badges),
       timelineTitles: ensureArray((data as any).timelineTitles),
       timelineDescs: ensureArray((data as any).timelineDescs),
-    });
-  });
+    };
+  } catch (error: any) {
+    const isOffline = error?.code === 'unavailable' ||
+      error?.message?.toLowerCase().includes('offline') ||
+      !navigator.onLine;
 
-  return cars;
-}
-
-export async function getCarBySlugFirebase(slug: string): Promise<Car | undefined> {
-  if (!isFirebaseInitialized) return undefined;
-  const q = query(
-    collection(db, CARS_COLLECTION),
-    where("slug", "==", slug),
-  );
-  const snap = await getDocs(q);
-  if (snap.empty) return undefined;
-
-  const data = snap.docs[0].data() as Car;
-  return {
-    ...data,
-    id: data.id || snap.docs[0].id, // Ensure id is set using document ID if missing
-    images: ensureArray(data.images as any),
-    features: ensureArray((data as any).features),
-    enhancements: ensureArray((data as any).enhancements),
-    badges: ensureArray((data as any).badges),
-    timelineTitles: ensureArray((data as any).timelineTitles),
-    timelineDescs: ensureArray((data as any).timelineDescs),
-  };
-}
-
-export async function getCarByIdFirebase(id: string): Promise<Car | undefined> {
-  if (!isFirebaseInitialized) return undefined;
-  if (!id) {
-    console.error("getCarByIdFirebase: id is required");
-    return undefined;
-  }
-
-  console.log("getCarByIdFirebase: Searching for car with id:", id);
-
-  const q = query(
-    collection(db, CARS_COLLECTION),
-    where("id", "==", id),
-  );
-  const snap = await getDocs(q);
-
-  if (snap.empty) {
-    console.warn("getCarByIdFirebase: No car found with id:", id);
-    // Try using the id as document ID as fallback
-    try {
-      const docRef = doc(collection(db, CARS_COLLECTION), id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data() as Car;
-        console.log("getCarByIdFirebase: Found car using document ID");
-        return {
-          ...data,
-          id: data.id || docSnap.id,
-          images: ensureArray(data.images as any),
-          features: ensureArray((data as any).features),
-          enhancements: ensureArray((data as any).enhancements),
-          badges: ensureArray((data as any).badges),
-          timelineTitles: ensureArray((data as any).timelineTitles),
-          timelineDescs: ensureArray((data as any).timelineDescs),
-        };
-      }
-    } catch (err) {
-      console.error("getCarByIdFirebase: Error trying document ID lookup:", err);
+    if (!isOffline) {
+      console.error("Error fetching car by slug:", error);
     }
     return undefined;
   }
+}
 
-  const data = snap.docs[0].data() as Car;
-  console.log("getCarByIdFirebase: Found car:", data.name);
-  return {
-    ...data,
-    id: data.id || snap.docs[0].id, // Ensure id is set
-    images: ensureArray(data.images as any),
-    features: ensureArray((data as any).features),
-    enhancements: ensureArray((data as any).enhancements),
-    badges: ensureArray((data as any).badges),
-    timelineTitles: ensureArray((data as any).timelineTitles),
-    timelineDescs: ensureArray((data as any).timelineDescs),
-  };
+export async function getCarByIdFirebase(id: string): Promise<Car | undefined> {
+  try {
+    if (!isFirebaseInitialized) return undefined;
+    if (!id) {
+      console.error("getCarByIdFirebase: id is required");
+      return undefined;
+    }
+
+    console.log("getCarByIdFirebase: Searching for car with id:", id);
+
+    const q = query(
+      collection(db, CARS_COLLECTION),
+      where("id", "==", id),
+    );
+    const snap = await getDocs(q);
+
+    if (snap.empty) {
+      console.warn("getCarByIdFirebase: No car found with id:", id);
+      // Try using the id as document ID as fallback
+      try {
+        const docRef = doc(collection(db, CARS_COLLECTION), id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data() as Car;
+          console.log("getCarByIdFirebase: Found car using document ID");
+          return {
+            ...data,
+            id: data.id || docSnap.id,
+            images: ensureArray(data.images as any),
+            features: ensureArray((data as any).features),
+            enhancements: ensureArray((data as any).enhancements),
+            badges: ensureArray((data as any).badges),
+            timelineTitles: ensureArray((data as any).timelineTitles),
+            timelineDescs: ensureArray((data as any).timelineDescs),
+          };
+        }
+      } catch (err) {
+        console.error("getCarByIdFirebase: Error trying document ID lookup:", err);
+      }
+      return undefined;
+    }
+
+    const data = snap.docs[0].data() as Car;
+    console.log("getCarByIdFirebase: Found car:", data.name);
+    return {
+      ...data,
+      id: data.id || snap.docs[0].id, // Ensure id is set
+      images: ensureArray(data.images as any),
+      features: ensureArray((data as any).features),
+      enhancements: ensureArray((data as any).enhancements),
+      badges: ensureArray((data as any).badges),
+      timelineTitles: ensureArray((data as any).timelineTitles),
+      timelineDescs: ensureArray((data as any).timelineDescs),
+    };
+  } catch (error: any) {
+    const isOffline = error?.code === 'unavailable' ||
+      error?.message?.toLowerCase().includes('offline') ||
+      !navigator.onLine;
+
+    if (!isOffline) {
+      console.error("Error fetching car by id:", error);
+    }
+    return undefined;
+  }
 }
 
 export async function createCarFirebase(input: InsertCar): Promise<Car> {
@@ -162,16 +195,16 @@ export async function updateCarFirebase(id: string, input: InsertCar): Promise<C
     where("id", "==", id),
   );
   const snap = await getDocs(q);
-  
+
   let docRef;
-  
+
   if (!snap.empty) {
     docRef = snap.docs[0].ref;
   } else {
     // Fallback: Try to use id as document ID
     const docRefById = doc(collection(db, CARS_COLLECTION), id);
     const docSnap = await getDoc(docRefById);
-    
+
     if (docSnap.exists()) {
       docRef = docRefById;
     } else {

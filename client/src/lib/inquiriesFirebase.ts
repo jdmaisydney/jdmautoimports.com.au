@@ -48,28 +48,47 @@ export async function createInquiryFirebase(
             createdAt: new Date().toISOString(),
         };
 
-        const docRef = await addDoc(collection(db, INQUIRIES_COLLECTION), inquiry);
+        await addDoc(collection(db, INQUIRIES_COLLECTION), inquiry);
 
         return inquiry;
-    } catch (error) {
+    } catch (error: any) {
+        const isOffline = error?.code === 'unavailable' ||
+            error?.message?.toLowerCase().includes('offline') ||
+            !navigator.onLine;
+
+        if (isOffline) {
+            throw new Error("You appear to be offline. Please check your connection and try again.");
+        }
+
         console.error("Error creating inquiry in Firestore:", error);
         throw new Error(`Failed to create inquiry: ${error instanceof Error ? error.message : String(error)}`);
     }
 }
 
 export async function getAllInquiriesFirebase(): Promise<Inquiry[]> {
-    const q = query(
-        collection(db, INQUIRIES_COLLECTION),
-        orderBy("createdAt", "desc"),
-    );
-    const snap = await getDocs(q);
-    const inquiries: Inquiry[] = [];
+    try {
+        const q = query(
+            collection(db, INQUIRIES_COLLECTION),
+            orderBy("createdAt", "desc"),
+        );
+        const snap = await getDocs(q);
+        const inquiries: Inquiry[] = [];
 
-    snap.forEach((docSnap) => {
-        inquiries.push(docSnap.data() as Inquiry);
-    });
+        snap.forEach((docSnap) => {
+            inquiries.push(docSnap.data() as Inquiry);
+        });
 
-    return inquiries;
+        return inquiries;
+    } catch (error: any) {
+        const isOffline = error?.code === 'unavailable' ||
+            error?.message?.toLowerCase().includes('offline') ||
+            !navigator.onLine;
+
+        if (!isOffline) {
+            console.error("Error fetching all inquiries:", error);
+        }
+        return [];
+    }
 }
 
 export async function updateInquiryStatusFirebase(
@@ -88,17 +107,28 @@ export async function updateInquiryStatusFirebase(
 }
 
 export async function getInquiriesByCarFirebase(carId: string): Promise<Inquiry[]> {
-    const q = query(
-        collection(db, INQUIRIES_COLLECTION),
-        where("carId", "==", carId),
-        orderBy("createdAt", "desc"),
-    );
-    const snap = await getDocs(q);
-    const inquiries: Inquiry[] = [];
+    try {
+        const q = query(
+            collection(db, INQUIRIES_COLLECTION),
+            where("carId", "==", carId),
+            orderBy("createdAt", "desc"),
+        );
+        const snap = await getDocs(q);
+        const inquiries: Inquiry[] = [];
 
-    snap.forEach((docSnap) => {
-        inquiries.push(docSnap.data() as Inquiry);
-    });
+        snap.forEach((docSnap) => {
+            inquiries.push(docSnap.data() as Inquiry);
+        });
 
-    return inquiries;
+        return inquiries;
+    } catch (error: any) {
+        const isOffline = error?.code === 'unavailable' ||
+            error?.message?.toLowerCase().includes('offline') ||
+            !navigator.onLine;
+
+        if (!isOffline) {
+            console.error("Error fetching inquiries by car:", error);
+        }
+        return [];
+    }
 }

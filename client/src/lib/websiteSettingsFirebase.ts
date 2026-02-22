@@ -192,8 +192,15 @@ export async function getWebsiteSettings(): Promise<WebsiteSettings> {
 
     // Return defaults if no settings exist
     return defaultWebsiteSettings;
-  } catch (error) {
-    console.error("Error fetching website settings:", error);
+  } catch (error: any) {
+    // Silently handle offline/unavailable errors to avoid console noise
+    const isOffline = error?.code === 'unavailable' ||
+      error?.message?.toLowerCase().includes('offline') ||
+      !navigator.onLine;
+
+    if (!isOffline) {
+      console.error("Error fetching website settings:", error);
+    }
     return defaultWebsiteSettings;
   }
 }

@@ -165,7 +165,21 @@ function Router() {
 }
 
 function AppContent() {
-  const { maintenanceMode, isLoading } = useWebsiteSettings();
+  const { maintenanceMode, isLoading: isSettingsLoading } = useWebsiteSettings();
+  const [showLoader, setShowLoader] = useState(true);
+
+  // Set a maximum timeout for the loader (3 seconds)
+  // This prevents the screen from being stuck on the loader if Firebase takes too long or is offline
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoader(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Use both the query loading state and our safety timer
+  const isLoading = isSettingsLoading && showLoader;
+
   const isAdminAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
   const [location] = useLocation();
   const isAdminRoute = location.startsWith("/admin");

@@ -6,13 +6,16 @@ import { getWebsiteSettings, defaultWebsiteSettings } from "@/lib/websiteSetting
  * Hook to fetch website settings and update HTML head elements
  */
 export function useWebsiteSettings() {
-  const { data: settings, isLoading } = useQuery({
+  const { data: settings, isLoading: isQueryLoading } = useQuery({
     queryKey: ["websiteSettings"],
     queryFn: getWebsiteSettings,
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-    retry: 1,
+    retry: 0, // Don't retry if it fails (e.g. offline)
     refetchOnWindowFocus: false,
   });
+
+  // If we are offline, we shouldn't be "loading" indefinitely
+  const isLoading = isQueryLoading && navigator.onLine;
 
   useEffect(() => {
     if (!settings) return;
