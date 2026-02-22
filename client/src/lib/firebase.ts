@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, enableMultiTabIndexedDbPersistence } from "firebase/firestore";
 
 // Firebase configuration from environment variables
 // Customers must create a .env file with these values
@@ -21,6 +21,19 @@ let dbInstance;
 if (isFirebaseInitialized) {
   app = initializeApp(firebaseConfig);
   dbInstance = getFirestore(app);
+
+  // Enable offline persistence
+  if (typeof window !== "undefined") {
+    enableMultiTabIndexedDbPersistence(dbInstance).catch((err) => {
+      if (err.code === 'failed-precondition') {
+        // Multiple tabs open, persistence can only be enabled in one tab at a time.
+        console.warn("Firestore persistence failed: Multiple tabs open.");
+      } else if (err.code === 'unimplemented') {
+        // The current browser does not support persistence
+        console.warn("Firestore persistence failed: Browser not supported.");
+      }
+    });
+  }
 } else {
   console.warn("Firebase credentials missing. App will run in Setup Mode.");
 }
