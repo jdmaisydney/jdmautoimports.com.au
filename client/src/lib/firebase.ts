@@ -50,8 +50,50 @@ if (isFirebaseInitialized) {
 }
 
 // Export casted db to avoid TypeScript errors in consumers
-// The App component will prevent usage if !isFirebaseInitialized
 export const db = dbInstance as ReturnType<typeof getFirestore>;
+
+// Advanced diagnostics for debugging
+if (typeof window !== "undefined") {
+  (window as any).firebaseDiagnostics = {
+    isInitialized: isFirebaseInitialized,
+    projectId: firebaseConfig.projectId,
+    browserOnline: navigator.onLine,
+    config: { ...firebaseConfig, apiKey: firebaseConfig.apiKey ? "REDACTED" : "MISSING" },
+    checkConnection: async () => {
+      if (!isFirebaseInitialized) return "Firebase not initialized";
+      try {
+        const { collection, getDocs, limit, query } = await import("firebase/firestore");
+        const q = query(collection(db, "cars"), limit(1));
+        const snap = await getDocs(q);
+        return `Connection successful. Found ${snap.size} cars in 'cars' collection.`;
+      } catch (err: any) {
+        return `Connection failed: ${err.message} (Code: ${err.code})`;
+      }
+    },
+    importDataFromJSON: async (jsonData: any[]) => {
+      if (!isFirebaseInitialized) return "Firebase not initialized";
+      try {
+        const { collection, addDoc } = await import("firebase/firestore");
+        const carsCol = collection(db, "cars");
+        let count = 0;
+        for (const car of jsonData) {
+          await addDoc(carsCol, {
+            ...car,
+            id: crypto.randomUUID(),
+            slug: car.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+            published: true,
+            isComingSoon: false
+          });
+          count++;
+        }
+        return `Successfully imported ${count} cars.`;
+      } catch (err: any) {
+        return `Import failed: ${err.message}`;
+      }
+    }
+  };
+  console.log("Firebase Diagnostics available at: window.firebaseDiagnostics");
+}
 
 
 
