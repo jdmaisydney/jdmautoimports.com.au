@@ -480,6 +480,23 @@ export default function CarForm() {
           </h1>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
+          <FormField
+            control={form.control}
+            name="published"
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-3 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border rounded-xl px-4 py-2 mr-2">
+                <FormLabel className="text-sm font-bold m-0 cursor-pointer">Published</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    data-testid="switch-published-header"
+                    className="scale-90"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <Button
             type="button"
             variant="outline"
@@ -1055,27 +1072,7 @@ export default function CarForm() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="published"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base">Published Status</FormLabel>
-                        <FormDescription>
-                          Hide or show this vehicle on the public website
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          data-testid="switch-published"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+
               </div>
             </CardContent>
           </Card>

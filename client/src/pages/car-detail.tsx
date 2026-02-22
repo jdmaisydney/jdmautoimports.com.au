@@ -314,7 +314,7 @@ export default function CarDetail() {
                 {/* Main Features & Availability Grid */}
                 <div className="pt-8 space-y-6">
                   <div className="flex items-center justify-between border-b border-border pb-6">
-                    <h3 className="text-2xl font-bold">Standard Features</h3>
+                    <h3 className="text-2xl font-bold">Features & Availability</h3>
                     <Badge variant="outline" className="bg-muted/50 rounded-lg px-3 py-1 text-xs font-mono">
                       INCLUDED
                     </Badge>
@@ -347,24 +347,57 @@ export default function CarDetail() {
                   </div>
                 </div>
 
-                {/* Premium Enhancements */}
-                <div className="pt-8 space-y-6">
-                  <div className="flex items-center justify-between border-b border-border pb-6">
-                    <h3 className="text-2xl font-bold">Included Enhancements</h3>
-                    <Badge variant="default" className="bg-primary text-primary-foreground rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-widest">
-                      IMPORT SPECIALIST PACKAGE
-                    </Badge>
+                {/* Verified Asset Dossier */}
+                {(car.auctionGrade || car.verifiedMileage || car.accidentHistory || car.dossierText) && (
+                  <div className="pt-12 space-y-8">
+                    <div className="flex items-center justify-between border-b border-border pb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="p-3 rounded-2xl bg-blue-600 text-white">
+                          <FileText className="h-5 w-5" />
+                        </div>
+                        <h3 className="text-2xl font-bold">{car.dossierTitle || "Verified Asset Dossier"}</h3>
+                      </div>
+                      <Badge variant="outline" className="bg-emerald-50/50 text-emerald-700 border-emerald-200 rounded-lg px-3 py-1 text-xs font-mono">
+                        AUTHENTICITY GUARANTEED
+                      </Badge>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {car.auctionGrade && (
+                        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Auction Grade</p>
+                          <p className="text-2xl font-bold text-blue-600">{car.auctionGrade}</p>
+                        </div>
+                      )}
+                      {car.verifiedMileage && (
+                        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Verified Odometer</p>
+                          <p className="text-2xl font-bold text-blue-600">{car.verifiedMileage}</p>
+                        </div>
+                      )}
+                      {car.accidentHistory && (
+                        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/40 border border-border/50">
+                          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Accident History</p>
+                          <p className="text-2xl font-bold text-blue-600">{car.accidentHistory}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {car.dossierText && (
+                      <div className="p-8 rounded-[32px] bg-blue-50/30 dark:bg-blue-900/10 border border-blue-100/50 dark:border-blue-800/30">
+                        <div className="flex items-start gap-4">
+                          <ShieldCheck className="h-6 w-6 text-blue-600 mt-1" />
+                          <div className="space-y-4">
+                            <h4 className="font-bold text-lg">Detailed Inspection Summary</h4>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {car.dossierText}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {(car.enhancements && car.enhancements.length > 0
-                      ? car.enhancements
-                      : ["Apple CarPlay|Conversion", "Android Auto|Conversion", "English Menu|Enabled", "Verified ODO|Export Cert"]
-                    ).map((e, i) => {
-                      const [label, sub] = (e || "").split("|");
-                      return <EnhancementBadge key={i} label={label || ""} sub={sub || ""} />;
-                    })}
-                  </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -576,16 +609,7 @@ function SpecCard({ icon, label, value }: { icon: React.ReactNode, label: string
   );
 }
 
-function EnhancementBadge({ label, sub }: { label: string, sub: string }) {
-  return (
-    <div className="p-4 rounded-2xl bg-card border border-border group hover:border-blue-500/40 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all duration-300">
-      <div className="flex flex-col">
-        <span className="text-sm font-bold text-foreground mb-0.5">{label}</span>
-        <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">{sub}</span>
-      </div>
-    </div>
-  );
-}
+
 
 function FeatureItem({ text }: { text: string }) {
   return (
